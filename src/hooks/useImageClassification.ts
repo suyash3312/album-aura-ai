@@ -43,8 +43,22 @@ export const useImageClassification = () => {
     try {
       const model = await initializeClassifier();
       
-      // Convert file to proper format for the model
-      const results = await model(file);
+      // Convert file to image element
+      const imageUrl = URL.createObjectURL(file);
+      const img = new Image();
+      
+      // Wait for image to load
+      await new Promise((resolve, reject) => {
+        img.onload = resolve;
+        img.onerror = reject;
+        img.src = imageUrl;
+      });
+      
+      // Classify the image using the image element
+      const results = await model(img);
+      
+      // Clean up
+      URL.revokeObjectURL(imageUrl);
       
       // Return top 3 results
       return results.slice(0, 3).map((result: any) => ({
