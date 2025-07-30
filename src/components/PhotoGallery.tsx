@@ -27,6 +27,14 @@ export const PhotoGallery = () => {
   const { toast } = useToast();
   const { classifyImage, isLoading: isClassifying } = useImageClassification();
 
+  const handleDeletePhoto = useCallback((photoId: string) => {
+    setPhotos(prev => prev.filter(photo => photo.id !== photoId));
+    toast({
+      title: "Photo deleted",
+      description: "The photo has been removed from your gallery",
+    });
+  }, [toast]);
+
   const handleFileUpload = useCallback(async (files: File[]) => {
     setIsProcessing(true);
     const newPhotos: Photo[] = [];
@@ -185,7 +193,7 @@ export const PhotoGallery = () => {
               />
             </Card>
 
-            <PhotoGrid photos={filteredPhotos} />
+            <PhotoGrid photos={filteredPhotos} onDeletePhoto={handleDeletePhoto} />
           </>
         )}
 

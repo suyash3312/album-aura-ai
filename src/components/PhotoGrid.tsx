@@ -8,9 +8,10 @@ import { Photo } from './PhotoGallery';
 
 interface PhotoGridProps {
   photos: Photo[];
+  onDeletePhoto: (photoId: string) => void;
 }
 
-export const PhotoGrid = ({ photos }: PhotoGridProps) => {
+export const PhotoGrid = ({ photos, onDeletePhoto }: PhotoGridProps) => {
   const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null);
 
   const formatDate = (date: Date) => {
@@ -137,10 +138,7 @@ export const PhotoGrid = ({ photos }: PhotoGridProps) => {
                     variant="destructive" 
                     size="sm"
                     className="w-full"
-                    onClick={() => {
-                      // TODO: Implement delete functionality
-                      console.log('Delete photo:', photo.id);
-                    }}
+                    onClick={() => onDeletePhoto(photo.id)}
                   >
                     <Trash2 className="h-4 w-4 mr-2" />
                     Delete Photo
