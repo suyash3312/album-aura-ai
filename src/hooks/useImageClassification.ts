@@ -43,14 +43,8 @@ export const useImageClassification = () => {
     try {
       const model = await initializeClassifier();
       
-      // Create image URL for classification
-      const imageUrl = URL.createObjectURL(file);
-      
-      // Classify the image
-      const results = await model(imageUrl);
-      
-      // Clean up the object URL
-      URL.revokeObjectURL(imageUrl);
+      // Convert file to proper format for the model
+      const results = await model(file);
       
       // Return top 3 results
       return results.slice(0, 3).map((result: any) => ({
